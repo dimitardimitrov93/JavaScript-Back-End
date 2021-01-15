@@ -11,7 +11,7 @@ module.exports = (req, res) => {
 
         const filePath = './views/home/index.html';
 
-        fs.readFile(path.normalize(filePath), (err, data) => {
+        fs.readFile(filePath, (err, data) => {
             if (err) {
                 console.log(err);
                 

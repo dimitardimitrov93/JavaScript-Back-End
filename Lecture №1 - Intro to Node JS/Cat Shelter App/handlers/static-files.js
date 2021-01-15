@@ -3,24 +3,25 @@ const fs = require('fs');
 const path = require('path');
 
 function getContentType(url) {
-    if (url.endsWith('css')) {
+    if (url.endsWith('.css')) {
         return 'text/css';
-    } else if (url.endsWith('html')) {
+    } else if (url.endsWith('.html')) {
         return 'text/html';
-    } else if (url.endsWith('js')) {
+    } else if (url.endsWith('.js')) {
         return 'text/javascript';
-    } else if (url.endsWith('json')) {
+    } else if (url.endsWith('.json')) {
         return 'application/json';
+    } else if (url.endsWith('.ico')) {
+        return 'image/vnd.microsoft.icon';
     }
 }
 
 module.exports = (req, res) => {
     const pathname = url.parse(req.url).pathname;
     
-    const contentType = getContentType(pathname);
+    const contentType = getContentType(path.extname(pathname));
 
     if (pathname.startsWith('/content') && req.method === 'GET') {
-        
 
         fs.readFile(path.normalize(`.${pathname}`), (err, data) => {
             if (err) {
@@ -39,5 +40,7 @@ module.exports = (req, res) => {
                 res.end();
             }
         });
+    } else {
+        return true;
     }
 }
