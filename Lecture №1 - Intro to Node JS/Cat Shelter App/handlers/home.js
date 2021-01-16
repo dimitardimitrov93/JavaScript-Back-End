@@ -14,7 +14,7 @@ module.exports = (req, res) => {
         fs.readFile(filePath, (err, data) => {
             if (err) {
                 console.log(err);
-                
+
                 res.writeHead(404, {
                     'Content-Type': 'text/html',
                 });
@@ -24,7 +24,23 @@ module.exports = (req, res) => {
                 res.writeHead(200, {
                     'Content-Type': 'text/html',
                 });
-                res.write(data);
+
+                let catsFromDbHtml = cats.map(cat => `
+                    <li>
+                        <img src="${cat.image}" alt="${cat.breed}">
+                        <h3>${cat.name}</h3>
+                        <p><span>Breed: </span>${cat.breed}</p>
+                        <p><span>Description: </span>${cat.description}</p>
+                        <ul class="buttons">
+                            <li class="btn edit"><a href="/cats-edit/?id=${cat.id}">Change Info</a></li>
+                            <li class="btn delete"><a href="/cats-find-new-home/?id=${cat.id}">New Home</a></li>
+                        </ul>
+                    </li>
+                `);
+                
+                let modifiedCatsHtml = data.toString().replace('{{cats}}', catsFromDbHtml);
+
+                res.write(modifiedCatsHtml);
                 res.end();
             }
         });
