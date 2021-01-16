@@ -28,12 +28,55 @@ module.exports = (req, res) => {
                     res.writeHead(200, {
                         'Content-Type': 'text/html',
                     });
-                    res.write(data);
+
+                    let catBreedsPlaceholder = breeds.map(breed => `<option value="${breed}">${breed}</option>`);
+                    let modifiedData = data
+                        .toString()
+                        .replace('{{catBreeds}}', catBreedsPlaceholder);
+
+                    res.write(modifiedData);
                     res.end();
                 }
             });
         } else if (req.method === 'POST') {
+            const catsFilePath = './data/cats.json';
+            const imagesFilePath = './content/images/';
+            const form = new formidable.IncomingForm();
 
+            form.parse(req, function (err, fields, files) {
+                if (err) {
+                    console.log(err);
+
+                }
+
+                let catInfo = fields;
+                let catImageData = files;
+
+                fs.rename(catImageData.upload.path, `${imagesFilePath}${catImageData.upload.name}`, (err) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+
+                fs.readFile(catsFilePath, 'utf8', (err, data) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    
+                    let catsInfo = JSON.parse(data);
+                    let modifiedCats = [{id: catsInfo.length + 1, ...catInfo, image: `${imagesFilePath}${catImageData.upload.name}`}, ...catsInfo];
+
+                    fs.writeFile(catsFilePath, JSON.stringify(modifiedCats), (err) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+                });
+                res.writeHead(301, {
+                    location: '/',
+                });
+                res.end();
+            });
         }
     } else if (pathname === '/cats/add-breed') {
         if (req.method === 'GET') {
@@ -85,7 +128,9 @@ module.exports = (req, res) => {
                         }
                     });
                 });
-
+                res.writeHead(301, {
+                    location: '/',
+                });
                 res.end();
             });
 

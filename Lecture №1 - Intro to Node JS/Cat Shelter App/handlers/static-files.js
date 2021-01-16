@@ -13,6 +13,8 @@ function getContentType(url) {
         return 'application/json';
     } else if (url.endsWith('.ico')) {
         return 'image/vnd.microsoft.icon';
+    } else if (url.endsWith('.png') || url.endsWith('.jpg') || url.endsWith('.jpeg')) {
+        return 'image/jpeg';
     }
 }
 
