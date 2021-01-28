@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "set NODE_ENV=development && nodemon ./index.js",
+    "start": "set NODE_ENV=development && node ./node_modules/nodemon/bin/nodemon index.js",
     "prod": "set NODE_ENV=production && node ./index.js"
   },
   "author": "Dimitar Dimitrov",
