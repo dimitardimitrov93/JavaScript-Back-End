@@ -3,12 +3,11 @@ const fs = require('fs');
 const Cube = require('../models/Cube');
 const products = require('../config/products.json');
 
-// function getAll() {
-
-// }
+function getAll() {
+    return products;
+}
 
 function create(data) {
-    let updatedProducts = products.slice();
     let cube = new Cube(
         uniqid(), 
         data.name, 
@@ -17,9 +16,9 @@ function create(data) {
         data.difficultyLevel
     );
 
-    updatedProducts.push(cube);
+    products.push(cube);
 
-    fs.writeFile('./config/products.json', JSON.stringify(updatedProducts), (err) => {
+    fs.writeFile('./config/products.json', JSON.stringify(products), (err) => {
         if (err) {
            console.log(err);
            return;
@@ -31,4 +30,5 @@ function create(data) {
 
 module.exports = {
     create,
+    getAll,
 };
