@@ -5,8 +5,10 @@ module.exports = (app) => {
     app.engine('hbs', expHandlebars({
         extname: 'hbs',
     }));
-    
+
     app.set('view engine', 'hbs');
-    
+
     app.use(express.static('public'));
+
+    app.use(express.urlencoded({ extended: true }));
 }
