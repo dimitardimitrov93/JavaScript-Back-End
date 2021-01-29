@@ -1,11 +1,20 @@
 const uniqid = require('uniqid');
-const fs = require('fs');
+// const fs = require('fs');
+const fs = require('fs').promises;
 const products = require('../config/products.json');
 const path = require('path');
 const Cube = require('../models/Cube');
 
-function getAll() {
-    return products.slice();
+function getAll(query) {
+    let results = products.slice();
+    
+    if (query.search) {
+        results = results.filter(product => product.name.toLowerCase().includes(query.search.toLowerCase()));
+        if (query.from && query.to) {
+            results = results.filter(product => (((Number(product.difficultyLevel) >= Number(query.from)) && (Number(product.difficultyLevel) <= Number(query.to)))));
+        }
+    }
+    return results;
 }
 
 function getOne(id) {
@@ -23,11 +32,13 @@ function create(data, callback) {
 
     products.push(cube);
     
-    fs.writeFile(
-        path.join(__dirname, '../config/products.json'),
-        JSON.stringify(products),
-        callback
-        );
+    // fs.writeFile(
+    //     path.join(__dirname, '../config/products.json'),
+    //     JSON.stringify(products),
+    //     callback
+    // );
+
+    return fs.writeFile(path.join(__dirname, '../config/products.json'), JSON.stringify(products))
 }
 
 module.exports = {
