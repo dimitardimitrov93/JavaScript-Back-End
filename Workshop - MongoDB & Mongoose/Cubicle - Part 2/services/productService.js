@@ -1,11 +1,8 @@
-// const fs = require('fs');
-// const products = require('../config/products.json');
-const productData = require('../data/productsData');
 const Cube = require('../models/Cube');
 
-function getAll(query) {
-    let products = productData.getAll();
-    
+async function getAll(query) {
+    let products = await Cube.find({}).lean();
+
     if (query.search) {
         products = products.filter(product => product.name.toLowerCase().includes(query.search.toLowerCase()));
 
@@ -17,24 +14,17 @@ function getAll(query) {
             products = products.filter(product => Number(product.difficultyLevel) <= Number(query.to));
         }
     }
-
+    
     return products;
 }
 
 function getOne(id) {
-    return Cube.getOne(id);
+    return Cube.findById(id).lean();
 }
 
 function create(data) {
     let cube = new Cube(data);
     
-    // fs.writeFile(
-    //     path.join(__dirname, '../config/products.json'),
-    //     JSON.stringify(products),
-    //     callback
-    // );
-
-    // return productData.create(cube);
     return cube.save();
 }
 
