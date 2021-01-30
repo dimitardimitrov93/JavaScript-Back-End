@@ -11,9 +11,9 @@ module.exports = {
         return products.slice();
     },
 
-    create(cube) {
-        products.push(cube);
+    // create(cube) {
+    //     products.push(cube);
 
-        return fs.writeFile(path.join(__dirname, '../config/products.json'), JSON.stringify(products))
-    }
+    //     return fs.writeFile(path.join(__dirname, '../config/products.json'), JSON.stringify(products))
+    // }
 }
