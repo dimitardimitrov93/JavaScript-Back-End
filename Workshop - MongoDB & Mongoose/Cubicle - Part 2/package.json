@@ -1,0 +1,20 @@
+{
+  "name": "cubicle-lab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "set NODE_ENV=development && node ./node_modules/nodemon/bin/nodemon index.js",
+    "prod": "set NODE_ENV=production && node ./index.js"
+  },
+  "author": "Dimitar Dimitrov",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.0",
+    "uniqid": "^5.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
