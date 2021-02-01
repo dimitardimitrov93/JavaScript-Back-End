@@ -15,7 +15,7 @@ const accessorySchema = new mongoose.Schema ({
         required: true,
         validate: {
             validator(v) {
-                const regExp = /^([http|https]+)([:\/\/]{3})\w+\.\w+\/?/;
+                const regExp = /^([http|https]+)([:\/\/]{3}).+/;
                 return regExp.test(v);
             }
         }

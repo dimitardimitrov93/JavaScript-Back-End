@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const productService = require('../services/productService');
+const accessoryService = require('../services/accessoryService');
 const { validateProduct } = require('./helpers/productHelpers')
 
 router.get('/', (req, res) => {
@@ -19,12 +20,6 @@ router.get('/create', (req, res) => {
 });
 
 router.post('/create', validateProduct, (req, res) => {
-    // productService.create(req.body, (err) => {
-    //     if (err) {
-    //         return res.status(500).end();
-    //     }
-    // });
-
     productService.create(req.body)
         .then(() => {
             console.log('Cube saved.');
@@ -47,7 +42,29 @@ router.get('/details/:productId', (req, res) => {
             console.log(err);
             return res.status(500).end();
         });
+});
 
+router.get('/:productId/attach-accessory', async (req, res) => {
+    let productDetails = await productService.getOne(req.params.productId);
+    let accessories = await accessoryService.getAll();
+
+    res.render('attachAccessory', { productDetails, accessories });
+});
+
+router.post('/:productId/attach-accessory', (req, res) => {
+    productService.attachAccessory(req.params.productId, req.body.accessoryId)
+        .then(() => {
+            res.redirect(`/products/details/${req.params.productId}`);
+        })
+        .catch(err => {
+            console.log(err);
+            return res.status(500).end();
+        });
+
+    // let productDetails = await productService.getOne(req.params.productId);
+    // let accessories = await accessoryService.getAll();
+
+    // res.render('attachAccessory', { productDetails, accessories });
 });
 
 module.exports = router;
