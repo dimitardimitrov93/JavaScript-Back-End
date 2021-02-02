@@ -23,6 +23,12 @@ function getOne(id) {
     return Cube.findById(id).lean();
 }
 
+function getOneWithAccessories(id) {
+    return Cube.findById(id)
+        .populate('accessories')
+        .lean();
+}
+
 function create(data) {
     let cube = new Cube(data);
 
@@ -42,4 +48,5 @@ module.exports = {
     getOne,
     create,
     attachAccessory,
+    getOneWithAccessories,
 };

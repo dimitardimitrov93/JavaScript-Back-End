@@ -32,11 +32,9 @@ router.post('/create', validateProduct, (req, res) => {
 });
 
 router.get('/details/:productId', (req, res) => {
-    productService.getOne(req.params.productId)
+    productService.getOneWithAccessories(req.params.productId)
         .then(productDetails => {
-            console.log(productDetails);
-            
-            res.render('details', { title: 'Product Details', ...productDetails });
+            res.render('details', { title: 'Product Details', ...productDetails});
         })
         .catch(err => {
             console.log(err);
@@ -45,8 +43,8 @@ router.get('/details/:productId', (req, res) => {
 });
 
 router.get('/:productId/attach-accessory', async (req, res) => {
-    let productDetails = await productService.getOne(req.params.productId);
-    let accessories = await accessoryService.getAll();
+    let productDetails = await productService.getOneWithAccessories(req.params.productId);
+    let accessories = await accessoryService.getAllWithout(productDetails.accessories);
 
     res.render('attachAccessory', { productDetails, accessories });
 });
