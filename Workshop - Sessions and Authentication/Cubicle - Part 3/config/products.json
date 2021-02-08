@@ -1,0 +1,51 @@
+[
+    {
+        "id": "5sb2rokkh26ago",
+        "name": "CubyCub",
+        "description": "The most cubicle cube.",
+        "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTemlyULpHGQMtG4FExHRBBRZm8YQHa0ZgBnQ&usqp=CAU",
+        "difficultyLevel": "5"
+    },
+    {
+        "id": "5sb5ywkkh26rv3",
+        "name": "Cubiculum",
+        "description": "Yet another cube.",
+        "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwX1CbJraJqUvOsEhbe4q5L_J23Vt54gRG-w&usqp=CAU",
+        "difficultyLevel": "2"
+    },
+    {
+        "id": "5sb1l8kkh2z2nt",
+        "name": "Easy Cuby",
+        "description": "Very easy cube.",
+        "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBp1V44Oo3EbQBnTShqgVZWBfFA6UDaB2_kg&usqp=CAU",
+        "difficultyLevel": "1"
+    },
+    {
+        "id": "5sb72okki5ug7c",
+        "name": "Larger",
+        "description": "Large and difficult cube.",
+        "imageUrl": "https://i.pinimg.com/originals/9f/0e/9c/9f0e9c7cb391da8fb9454b3d97cf0397.jpg",
+        "difficultyLevel": "5"
+    },
+    {
+        "id": "5sb338kki6095d",
+        "name": "Adrenalino",
+        "description": "This difficult cube will raise your adrenaline.",
+        "imageUrl": "https://theendearingdesigner.com/wp-content/uploads/2016/08/img_57b91600978e2.jpg",
+        "difficultyLevel": "4"
+    },
+    {
+        "id": "5sb9rwkki6qycd",
+        "name": "Cuban",
+        "description": "The cube of Sunny Beach.",
+        "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSwMYriVwioYfNqbORbS8OK-EdBLkWlpMq1Q&usqp=CAU",
+        "difficultyLevel": "1"
+    },
+    {
+        "id": "5sb8n4kkjtjj5p",
+        "name": "Mirror Cube",
+        "description": "Colorless Mirror Cube.",
+        "imageUrl": "https://www.rubiks.com/media/catalog/product/cache/9c57e2fe71f8a58f6afba681a0a15dd4/r/u/rubiks-mirror-block-solved.jpg",
+        "difficultyLevel": "1"
+    }
+]
