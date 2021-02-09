@@ -18,7 +18,7 @@ const login = async ({ username, password }) => {
     let isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw { message: 'Incorrect password!' };
 
-    return jwt.sign({ _id: user._id }, SECRET);
+    return jwt.sign({ _id: user._id, roles: ['admin'] }, SECRET);
 }
 module.exports = {
     register,

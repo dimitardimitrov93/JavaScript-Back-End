@@ -1,4 +1,6 @@
 const { Router } = require('express');
+const isAuthenticated = require('../middlewares/isAuthenticated');
+const isGuest = require('../middlewares/isGuest');
 const router = Router();
 const productService = require('../services/productService');
 const accessoryService = require('../services/accessoryService');
@@ -15,12 +17,12 @@ router.get('/', (req, res) => {
         });
 });
 
-router.get('/create', (req, res) => {
+router.get('/create', isAuthenticated, (req, res) => {
     res.render('create', { title: 'Create' });
 });
 
 router.post('/create', validateProduct, (req, res) => {
-    productService.create(req.body)
+    productService.create(req.body, req.user._id)
         .then(() => {
             console.log('Cube saved.');
             res.redirect('/products');
@@ -34,7 +36,7 @@ router.post('/create', validateProduct, (req, res) => {
 router.get('/details/:productId', (req, res) => {
     productService.getOneWithAccessories(req.params.productId)
         .then(productDetails => {
-            res.render('details', { title: 'Product Details', ...productDetails});
+            res.render('details', { title: 'Product Details', ...productDetails });
         })
         .catch(err => {
             console.log(err);
@@ -42,7 +44,7 @@ router.get('/details/:productId', (req, res) => {
         });
 });
 
-router.get('/:productId/attach-accessory', async (req, res) => {
+router.get('/:productId/attach-accessory', isAuthenticated, async (req, res) => {
     let productDetails = await productService.getOneWithAccessories(req.params.productId);
     let accessories = await accessoryService.getAllWithout(productDetails.accessories);
 
@@ -63,6 +65,40 @@ router.post('/:productId/attach-accessory', (req, res) => {
     // let accessories = await accessoryService.getAll();
 
     // res.render('attachAccessory', { productDetails, accessories });
+});
+
+router.get('/:productId/edit', isAuthenticated, async (req, res) => {
+    productService.getOne(req.params.productId)
+        .then(product => {
+            res.render('editCube', product);
+        });
+});
+
+router.post('/:productId/edit', isAuthenticated, validateProduct, async (req, res) => {
+    productService.updateOne(req.params.productId, req.body)
+        .then(response => {
+            res.redirect(`/products/${req.params.productId}/edit`);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+});
+
+router.get('/:productId/delete', isAuthenticated, async (req, res) => {
+    productService.getOne(req.params.productId)
+    .then(product => {
+        res.render('deleteCube', product);
+    });
+});
+
+router.post('/:productId/delete', isAuthenticated, async (req, res) => {
+    productService.deleteOne(req.params.productId)
+        .then(response => {
+            res.redirect('/products');
+        })
+        .catch(error => {
+            console.log(error);
+        });
 });
 
 module.exports = router;

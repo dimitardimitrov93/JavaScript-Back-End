@@ -1,13 +1,15 @@
 const { Router } = require('express');
+const isAuthenticated = require('../middlewares/isAuthenticated');
+const isGuest = require('../middlewares/isGuest');
 const router = Router();
 const authService = require('../services/authService');
 const { COOKIE_NAME } = require('../config/config');
 
-router.get('/login', (req, res) => {
+router.get('/login', isGuest, (req, res) => {
     res.render('login');
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', isGuest, async (req, res) => {
     const { username, password } = req.body;
     try {
         let token = await authService.login({ username, password });
@@ -18,11 +20,11 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.get('/register', (req, res) => {
+router.get('/register', isGuest, (req, res) => {
     res.render('register');
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register', isGuest, async (req, res) => {
     const { username, password, repeatPassword } = req.body;
 
     if (password !== repeatPassword) {
@@ -35,6 +37,11 @@ router.post('/register', async (req, res) => {
     } catch (error) {
         res.render('register', { error });
     }
+});
+
+router.get('/logout', isAuthenticated, (req, res) => {
+    res.clearCookie(COOKIE_NAME);
+    res.redirect('/products');
 });
 
 module.exports = router;
