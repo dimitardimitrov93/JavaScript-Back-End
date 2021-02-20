@@ -5,8 +5,21 @@ const create = (courseData, creatorId) => {
     return course.save();
 };
 
-const getAll = () => {
-    return Course.find({}).populate('usersEnrolled').sort({ createdAt: -1 }).lean();
+const getAll = (search) => {
+    if (search) {
+        console.log(search)
+        return Course
+            .find({ title: { $regex: search, $options: 'i' } })
+            .populate('usersEnrolled')
+            .sort({ createdAt: -1 })
+            .lean();
+    } else {
+        return Course
+            .find({})
+            .populate('usersEnrolled')
+            .sort({ createdAt: -1 })
+            .lean();
+    }
 };
 
 const getOne = (id, userId) => {

@@ -8,7 +8,7 @@ router.get('/', (req, res, next) => {
 
     if (isAuth) {
         let username = res.locals.user.username;
-        courseService.getAll()
+        courseService.getAll(req.query.search)
             .then(dbCourses => {
                 let courses = dbCourses.map(course => ({ ...course, createdAt: moment(course.createdAt).format('MMM Do YYYY, h:mm:ss a') }))
                 res.render('home', { isAuth, username, courses });

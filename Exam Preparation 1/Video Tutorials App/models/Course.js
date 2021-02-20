@@ -1,21 +1,30 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
 
 const courseSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
         unique: true,
+        minlength: [4, 'should be at least 5 characters long!'],
     },
     description: {
         type: String,
         required: true,
         maxlength: 50,
-        // minlength: [5, 'must be at least 5 characters long.'],
+        minlength: [20, 'must be at least 20 characters long.'],
     },
     imageUrl: {
         type: String,
         required: true,
+        validate: {
+            validator(v) {
+                const regExp = /^([http|https]+)([:\/\/]{3}).+/;
+                return regExp.test(v);
+            },
+            message: (props) => {
+                return `<${props.value}> is invalid image URL. The image URL should start with http:// or https://.`;
+            }
+        }
     },
     isPublic: {
         type: Boolean,
@@ -35,10 +44,5 @@ const courseSchema = new mongoose.Schema({
         ref: 'User',
     }],
 });
-
-// courseSchema.pre('save', function (next) {
-//     this.createdAt = new Date();
-//     next();
-// });
 
 module.exports = mongoose.model('Course', courseSchema);
